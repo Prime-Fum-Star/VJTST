@@ -160,9 +160,10 @@ async def upload(bot: Client, m: Message):
                 ytf = f"b[height<={raw_text2}]/bv[height<={raw_text2}]+ba/b/bv+ba"
 
             if "jw-prod" in url:
-                cmd = f'yt-dlp -o "{name}.mp4" "{url}"'
+               cmd = f'yt-dlp -o "{name}.mp4" "{url}"'
             else:
-                cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"'
+                # Add User-Agent, Referer, and Retry Options
+               cmd = f'yt-dlp -f "{ytf}" --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" --referer "https://www.google.com" --retries 10 --fragment-retries 25 "{url}" -o "{name}.mp4"'
 
             try:  
                 
