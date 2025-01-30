@@ -164,22 +164,16 @@ async def download_video(url,cmd, name):
         await asyncio.sleep(5)
         await download_video(url, cmd, name)
     failed_counter = 0
-    try:
-        if os.path.isfile(name):
-            return name
-        elif os.path.isfile(f"{name}.webm"):
-            return f"{name}.webm"
-        name = name.split(".")[0]
-        if os.path.isfile(f"{name}.mkv"):
-            return f"{name}.mkv"
-        elif os.path.isfile(f"{name}.mp4"):
-            return f"{name}.mp4"
-        elif os.path.isfile(f"{name}.mp4.webm"):
-            return f"{name}.mp4.webm"
-
-        return name
-    except FileNotFoundError as exc:
-        return os.path.isfile.splitext[0] + "." + "mp4"
+try:
+      possible_extensions = ['', '.webm', '.mkv', '.mp4', '.mp4.webm']
+      for ext in possible_extensions:
+          file_path = f"{name}{ext}" if ext else name
+          if os.path.isfile(file_path):
+              return file_path
+      raise FileNotFoundError(f"No file found for {name}")
+  except Exception as e:
+      print(f"Error finding file: {e}")
+      return None  # Or handle the error as needed
 
 
 async def send_doc(bot: Client, m: Message,cc,ka,cc1,prog,count,name):
